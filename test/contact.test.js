@@ -270,4 +270,37 @@ describe("GET /api/contacts", function(){
         expect(result.body.paging.total_page).toBe(1);
         expect(result.body.paging.total_item).toBe(6);
     });
+    it("should can search with param : phone", async() => {
+        const result = await supertest(web)
+        .get("/api/contacts")
+        .query({
+            'phone' : "0010"
+        })
+        .set("Authorization", "test");
+        logger.info(result);
+
+        expect(result.status).toBe(200);
+        expect(result.body.data.length).toBe(1);
+        expect(result.body.paging.page).toBe(1);
+        expect(result.body.paging.total_page).toBe(1);
+        expect(result.body.paging.total_item).toBe(1);
+    });
+
+    it("should can search with param : name, phone", async() => {
+        const result = await supertest(web)
+        .get("/api/contacts")
+        .query({
+            'name' : 'test 1',
+            'phone' : "0010"
+        })
+        .set("Authorization", "test");
+        logger.info(result);
+
+        expect(result.status).toBe(200);
+        expect(result.body.data.length).toBe(1);
+        expect(result.body.paging.page).toBe(1);
+        expect(result.body.paging.total_page).toBe(1);
+        expect(result.body.paging.total_item).toBe(1);
+    });
+    
 });
